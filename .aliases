@@ -1,0 +1,33 @@
+alias sshvps='ssh <ip address> -l $1'
+optimise(){
+  IFS=$'\n'
+  case $1 in
+    pic) mogrify -format png **/*.jpg
+         for png in $(find $2 -type f -name "*.png" -o -name "*.PNG"); do
+           png=$(echo $png | sed "s/.png//")
+           pngquant --force --quality=40-100 --skip-if-larger --strip --verbose "${png}.png" --output "${png}.png"
+         done;;
+    vid) for webm in $(find $2 -type f -name "*.webm" -o -name "*.WEBM"); do
+           webm=$(echo $webm | sed "s/.webm//")
+           ffmpeg -i ${webm}.webm -c:v libvpx-vp9 -crf 10 -b:v 0 ${webm}-1.webm
+           mv -f ${webm}-1.webm ${webm}.webm
+         done;;
+  esac
+  unset IFS
+}
+resize(){
+IFS=$'\n'
+  case $1 in
+    pic) for png in $(find $2 -type f -name "*.png" -o -name "*.PNG"); do
+           png=$(echo $png | sed "s/.png//")
+           ffmpeg -i ${png}.png -vf scale=-1:1080 ${png}-1080.png
+           mv -f ${png}-1080.png ${png}.png
+         done;;
+    vid) for webm in $(find $2 -type f -name "*.webm" -o -name "*.WEBM"); do
+           webm=$(echo $webm | sed "s/.webm//")
+           ffmpeg -i ${webm}.webm -c:v libvpx-vp9 -filter:v scale=-1:720 -crf 10 -b:v 0 -c:a copy ${webm}-1080.webm
+           mv -f ${webm}-1080.webm ${webm}.webm
+         done;;
+  esac
+  unset IFS
+}
