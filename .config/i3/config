@@ -9,7 +9,8 @@ bindsym $mod+u border none
 bindsym $mod+y border pixel 1
 bindsym $mod+n border normal
 
-font xft:URWGothic-Book 11
+#font xft:URWGothic-Book 11
+font pango: comfortaa, FontAwesome 11
 
 floating_modifier $mod
 
@@ -20,6 +21,10 @@ bindsym $mod+Shift+q kill
 
 # start program launcher
 bindsym $mod+d exec --no-startup-id rofi -show run
+
+# Screen Shots
+bindsym $mod+Delete exec scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f ~/Pictures/'
+bindsym Control+Delete exec gnome-screenshot -i
 
 # change focus
 bindsym $mod+j focus left
@@ -56,10 +61,6 @@ bindsym $mod+q split toggle
 # toggle fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
-# Screen Shots
-bindsym $mod+Delete exec scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f ~/Pictures/'
-bindsym Control+Delete exec gnome-screenshot -i
-
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
@@ -87,6 +88,11 @@ bindsym $mod+minus scratchpad show
 # navigate workspaces next / previous
 bindsym $mod+Ctrl+Right workspace next
 bindsym $mod+Ctrl+Left workspace prev
+
+# xorg
+exec_always xset s off
+exec_always xset -dpmx
+exec_always xset s noblank
 
 # workspaces
 set $ws1 1
@@ -213,42 +219,12 @@ mode "resize" {
 # Autostart applications
 exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 exec --no-startup-id nm-applet
-exec --no-startup-id gnome-settings-daemon
 # exec --no-startup-id xfce4-power-manager
 exec --no-startup-id pamac-tray
 exec --no-startup-id clipit
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
-
-bar {
-	i3bar_command i3bar
-	status_command ~/git/bumblebee-status/bumblebee-status -m git dnf deadbeef cpu memory kernel uptime time amixer -p time.format="%-I:%M%p" -t iceberg
-	# status_command i3status
-	position top
-
-## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
-#	tray_output primary
-#	tray_output eDP1
-
-	bindsym button4 nop
-	bindsym button5 nop
-#   font xft:URWGothic-Book 11
-	strip_workspace_numbers yes
-
-    colors {
-        background #2F343F
-        statusline #F9FAF9
-        separator  #454947
-
-#                           border  backgr. text
-        focused_workspace  #F9FAF9 #232729 #FDF6E3
-        active_workspace   #595B5B #353836 #FDF6E3
-        inactive_workspace #595B5B #2F343F #49505F
-        binding_mode       #232729 #2C2C2C #F9FAF9
-        urgent_workspace   #232729 #FDF6E3 #E5201D
-    }
-}
-
+exec_always --no-startup-id /$HOME/.config/polybar/launch.sh
 
 # Theme colors
 client.focused #c6c6c6 #1f1f1f #c6c6c6 #8abeb7 #8abeb7
@@ -261,7 +237,8 @@ client.background #1f1f1f
 
 # Gaps
 gaps inner 10
-gaps outer 10
+gaps outer -4
+
 smart_gaps on
 
 # Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
@@ -311,4 +288,3 @@ bindsym XF86AudioMute exec --no-startup-id amixer -q set Master toggle
 # touchpad on and off controller on laptop with Fn+<touchpad control functional key>
 bindsym XF86TouchpadOn exec --no-startup-id synclient Touchpadoff=0
 bindsym XF86TouchpadOff exec --no-startup-id synclient Touchpadoff=1
-exec compton --config ~/.config/compton.conf -b
