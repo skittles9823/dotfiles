@@ -10,11 +10,10 @@ foreground = #eee
 line-color = ${bar/top.background}
 line-size = 1
 
-padding-left = 0
-padding-right = 0
+padding-left = 3
+padding-right = 3
 module-margin-left = 3
 module-margin-right = 3
-
 
 separator = |
 
@@ -26,7 +25,7 @@ font-4 = "icomoon\-feather:style=Regular:size=12"
 font-5 = "Font Awesome 5 Brands:style=Regular:size=10;0"
 
 modules-left = deadbeef updates-fedora
-modules-right = cpu memory filesystem volume date
+modules-right = cpu memory filesystem date volume
 
 overline-size = 10
 overline-color = ${self.background}
@@ -65,7 +64,7 @@ ramp-coreload-7-foreground = #ff3540
 
 [module/date]
 type = internal/date
-date = %A,%d %B %Y %I:%M:%S %p
+date =  %A,%d %B %Y %I:%M:%S %p
 #%%{F#666}:%%{F#fba922}%%{F-}
 # %%{F#99}%Y-%m-%d%%{F-} %%{F#fff}%I:%M:%S %p%%{F-}
 # date-alt = %%{F#fff}%A, %d %B %Y %%{F#fff}%I:%M:%S %p%%{F#666}:%%{F#fba922}%%{F-}
